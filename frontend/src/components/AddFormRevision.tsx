@@ -7,6 +7,8 @@ import {
   DatePicker,
   SpinButton,
 } from "@fluentui/react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { saveTemplate } from "../actions/actionCreator";
 
 interface FormElement {
   id: string;
@@ -18,13 +20,14 @@ interface TemplateRow extends Array<FormElement> {}
 
 interface AddFormProps {
   onSave: (formValues: Record<string, any>) => void;
-  template: TemplateRow[];
 }
 
 const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
-  const [fixTemplate, setFixTemplate] = useState<TemplateRow[]>(template);
+  // const { template } = useSelector((state: any) => state.template);
+
   const [formValues, setFormValues] = useState<Record<string, any>>({});
 
   const handleFormChange = (id: string, value: any) => {
@@ -38,11 +41,11 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
     onSave(formValues);
   };
 
-  useEffect(() => {
-    setFixTemplate(template);
-  }, [template]);
+  // useEffect(() => {
+  //   dispatch(saveTemplate(template));
+  // }, []);
 
-  console.log(template, "ini template");
+  // console.log(template, "ini templateeeeeeeee");
 
   return (
     <>
@@ -51,7 +54,7 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
           Customize the form
           <i className="fas fa-cog"></i>
         </NavLink>
-        {JSON.stringify(fixTemplate)}
+        {/* {JSON.stringify(template)} */}
         <div>
           {template &&
             template.map((row, rowIndex) => (

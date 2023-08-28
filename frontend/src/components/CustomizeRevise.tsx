@@ -12,6 +12,8 @@ import {
 import AddFormRevision from "./AddFormRevision";
 import Data from "./Data";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveTemplate } from "../actions/actionCreator";
 
 interface TextField {
   type: "TextField";
@@ -59,6 +61,7 @@ const COMPONENT: Component[] = [
 const CustomizeRevise: React.FC = () => {
   const [template, setTemplate] = useState<FormElement[][]>([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [custom, setCustom] = useState<Component[]>(COMPONENT);
   const filterArray = (array: FormElement[][]): FormElement[][] => {
     const simpanArray = array.filter((el) => el.length !== 0);
@@ -81,9 +84,15 @@ const CustomizeRevise: React.FC = () => {
     setTemplate(modifyArray(FORM));
   }, []);
 
+  // const handleSave = () => {
+  //   const arrayBaru = filterArray(template);
+  //   navigate("/add-task", { state: { arrayBaru } });
+  // };
+
   const handleSave = () => {
     const arrayBaru = filterArray(template);
-    navigate("/add-task", { state: { arrayBaru } });
+    dispatch(saveTemplate(arrayBaru));
+    navigate("/add-task");
   };
 
   const handleDragandDrops = (results: any) => {

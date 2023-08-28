@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   return (
     <>
       <div className="sidebar-container">
@@ -14,10 +14,10 @@ const Sidebar = () => {
           Add Task
           <i className="fas fa-plus"></i>
         </NavLink>
-        {/* <NavLink activeClassName="active" to="/tes-task" className="nav-link">
+        <NavLink activeClassName="active" to="/tes-task" className="nav-link">
           Tes Task
           <i className="fas fa-plus"></i>
-        </NavLink> */}
+        </NavLink>
       </div>
     </>
   );

@@ -1,7 +1,27 @@
+// import { FETCH_FORM } from "../actions/actionType";
+// const initialState = {
+//   leftColumnComponents: [],
+//   rightColumnComponents: [],
+// };
+
+// const templateReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case FETCH_FORM:
+//       return {
+//         ...state,
+//         leftColumnComponents: action.payload.leftColumnComponents,
+//         rightColumnComponents: action.payload.rightColumnComponents,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// export default templateReducer;
+
 import { FETCH_FORM } from "../actions/actionType";
 const initialState = {
-  leftColumnComponents: [],
-  rightColumnComponents: [],
+  template: [],
 };
 
 const templateReducer = (state = initialState, action) => {
@@ -9,8 +29,7 @@ const templateReducer = (state = initialState, action) => {
     case FETCH_FORM:
       return {
         ...state,
-        leftColumnComponents: action.payload.leftColumnComponents,
-        rightColumnComponents: action.payload.rightColumnComponents,
+        template: action.payload,
       };
     default:
       return state;

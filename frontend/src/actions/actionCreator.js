@@ -86,10 +86,15 @@ export const editTask = (id, payload) => async (dispatch) => {
   }
 };
 
-export const saveTemplate = (leftColumnComponents, rightColumnComponents) => ({
+// export const saveTemplate = (leftColumnComponents, rightColumnComponents) => ({
+//   type: FETCH_FORM,
+//   payload: {
+//     leftColumnComponents,
+//     rightColumnComponents,
+//   },
+// });
+
+export const saveTemplate = (payload) => ({
   type: FETCH_FORM,
-  payload: {
-    leftColumnComponents,
-    rightColumnComponents,
-  },
+  payload,
 });

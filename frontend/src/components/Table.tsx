@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks, deleteTasks, editTask } from "../actions/actionCreator";
@@ -20,9 +21,7 @@ const Table = () => {
     description: "",
   });
 
-  const { leftColumnComponents, rightColumnComponents } = useSelector(
-    (state) => state.template
-  );
+  const { template } = useSelector((state) => state.template);
 
   const [error, setError] = useState({
     show: false,
@@ -90,29 +89,35 @@ const Table = () => {
   };
 
   // Read
+  // useEffect(() => {
+  //   dispatch(fetchTasks(currentPage, limitPerPage));
+  // }, [dispatch, currentPage]);
+
+  // useEffect(() => {
+  //   const leftColumns = leftColumnComponents.map((column) => {
+  //     return {
+  //       name: column.name,
+  //       component: column.component,
+  //       key: `left_${column.name}`,
+  //     };
+  //   });
+
+  //   const rightColumns = rightColumnComponents.map((column) => {
+  //     return {
+  //       name: column.name,
+  //       component: column.component,
+  //       key: `right_${column.name}`,
+  //     };
+  //   });
+
+  //   setAdditionalColumns([...leftColumns, ...rightColumns]);
+  // }, [leftColumnComponents, rightColumnComponents]);
+
   useEffect(() => {
     dispatch(fetchTasks(currentPage, limitPerPage));
   }, [dispatch, currentPage]);
 
-  useEffect(() => {
-    const leftColumns = leftColumnComponents.map((column) => {
-      return {
-        name: column.name,
-        component: column.component,
-        key: `left_${column.name}`,
-      };
-    });
-
-    const rightColumns = rightColumnComponents.map((column) => {
-      return {
-        name: column.name,
-        component: column.component,
-        key: `right_${column.name}`,
-      };
-    });
-
-    setAdditionalColumns([...leftColumns, ...rightColumns]);
-  }, [leftColumnComponents, rightColumnComponents]);
+  useEffect(() => {}, []);
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
