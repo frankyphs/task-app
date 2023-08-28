@@ -52,7 +52,7 @@ const AddFormRevision = ({ onSave, template }) => {
                     {el.type === "SpinButton" && (
                       <SpinButton
                         value={formValues[el.id] || ""}
-                        onChange={(value) => handleFormChange(el.id, value)}
+                        onChange={(_, value) => handleFormChange(el.id, value)}
                         label={el.type}
                       />
                     )}
