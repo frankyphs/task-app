@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contoso"
+    },
+    "libraryName": "kitamerakiFrankyTabs",
+    "generator-version": "4.1.0"
+  }
+}

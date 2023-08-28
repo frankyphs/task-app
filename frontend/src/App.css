@@ -1,0 +1,359 @@
+/*  import google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+
+/* normalize the page */
+*{
+  margin: 0 0;
+  padding: 0 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.container{
+  display: flex;
+}
+
+.sidebar-container{
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  background-color: #DDE6ED;
+  min-height: 100vh;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.feature-container{
+  margin: 0 0;
+  padding: 0 0;
+  width:  80%;
+}
+
+
+.sidebar-container h2{
+  margin: 10px auto;
+  font-size: 30px;
+  font-weight: 600 ;
+}
+
+
+.nav-link {
+  display: inline-block;
+  text-decoration: none; 
+  font-size: 24px;
+  font-weight: 600;
+  color: black; 
+  padding: 30px;
+  margin: 5px 7px;
+  border-radius: 8px;
+  background-color: #9DB2BF;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.nav-link:hover,
+.active {
+  color: white;
+  background-color: #5F7D8E;
+}
+
+.fas {
+  margin-left: 7px;
+}
+
+.feature-container h1{
+  padding: 10px 18px;
+}
+
+.table-container{
+  margin: 0;
+  width: 95%;
+}
+
+.table-container table {
+  border-collapse: collapse; 
+  border: 1px solid #ccc; 
+  font-size: 28px;
+  font-weight: 400;
+  margin: 20px;
+  width: 100%;
+}
+
+.table-container th,
+.table-container td {
+  border: 1px solid #ccc;
+  padding: 8px; 
+}
+
+.table-container th {
+  background-color: #f2f2f2; 
+}
+
+.table-container tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+td button {
+  background-color: #9DB2BF;
+  border-style: none;
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+  border-radius: 4px;
+  margin: 2px 4px;
+  padding: 8px 10px;
+}
+
+td button{
+  cursor: pointer;
+}
+
+.button-delete:hover{
+  background-color: red;
+}
+.button-edit:hover{
+  background-color: #5F7D8E;
+}
+
+/* ---------------------------------------------- */
+.add-form-container {
+  margin:20px 10px;
+}
+
+.add-form-container h3{
+  font-size: 28px;
+}
+
+.add-form-input {
+  font-size: 28px;
+  margin: 5px 0 15px 0;
+  background-color: #f2f2f2; /* Warna abu muda */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow */
+  border: none; /* Hapus border default */
+  padding: 8px 12px; /* Spasi di dalam input */
+  border-radius: 4px; /* Sudut melengkung */
+}
+
+.add-form-button {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.button-page{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+
+/* --------------------------------------- */
+
+
+
+ .form-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.component-list {
+  border: 1px solid #ddd;
+  padding: 16px;
+  /* min-height: 400px; */
+}
+
+.form-area {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+}
+
+.form-builder {
+  border: 1px solid #ddd;
+  padding: 16px;
+  min-height: 400px;
+  flex: 1;
+}
+
+.form-component {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+button {
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+/* .customize-form-adding{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+} */
+
+.left-custom-form, .right-custom-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.left-custom-form h3{
+  font-size: 28px ;
+}
+
+.right-custom-form h3{
+  font-size: 28px ;
+}
+
+.custom-component-form{
+  margin-bottom: 20px;
+}
+
+
+
+.custom-input .ms-DatePicker {
+  width: 100%; /* Lebar 100% */
+}
+
+
+/* Styling for the draggable components */
+div[draggable] {
+  cursor: move;
+  margin: 10px 0px;
+  /* padding: 10px; */
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.draggable-component{
+  padding: 20px;
+}
+
+
+/* div[draggable]:hover {
+  background-color:#9EB384
+} */
+
+/* .draggable-item{
+  width: 33%;
+  margin: 0 0;
+  background-color: #FFF6DC;
+} */
+
+.draggable-item-main{
+  width: 100%;
+  background-color: #FFF;
+  /* margin: 0 0; */
+  /* overflow: hidden; */
+}
+
+.draggable-item-secondary{
+  width: 100%;
+  background-color: #FFF;
+  /* overflow: hidden; */
+}
+
+.container-custom{
+  width: 100%;
+}
+
+.draggable-container{
+  width: 100%;
+}
+
+
+.map-dalam{
+  display: flex;
+}
+
+.dropArea-component{
+  display: flex;
+}
+
+.dropArea1{
+  border: dashed 1px black;
+  min-height: 500px;
+/* overflow: auto; */
+/* width: 100%; */
+}
+
+.dropArea2{
+  border: solid 1px black;
+  /* margin-top: 10px; */
+}
+
+.col {
+  display: flex;
+  width: 100%;
+}
+
+/* .col-content {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  padding: 8px;
+  width: 100%;
+} */
+
+.row {
+  display: flex;
+height: 120px;
+  border: dashed 1px black;
+  margin: 0 10px;
+}
+
+/* .row > div {
+  flex-basis: calc(100% / var(--col-count)); 
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #ddd;
+  margin: 4px;
+} */
+
+.draggable-item2 {
+  width: 100%;
+}
+
+.mainDropArea{
+  border: solid 1px black;
+}
+
+.barisss{
+  width: 100%;
+}
+
+.bungkus{
+  width: 100%;
+}
+
+.filled-row {
+  height: 100px;
+}
+
+.empty-row {
+  height: 10px;
+}
+
+.div-baris{
+  display: flex;
+  margin: 20px 0px
+}
+
+.div-kolom{
+ width: 100%;
+ margin:0 20px
+}
+
+.div-komponen{
+  width: 100%;
+  /* border: solid 1px black; */
+}
+
+.komponen-komponen{
+  border: 1px solid black;
+}
+
+
+
+
+
+
