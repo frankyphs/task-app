@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
@@ -13,6 +14,10 @@ const Sidebar = () => {
           Add Task
           <i className="fas fa-plus"></i>
         </NavLink>
+        {/* <NavLink activeClassName="active" to="/tes-task" className="nav-link">
+          Tes Task
+          <i className="fas fa-plus"></i>
+        </NavLink> */}
       </div>
     </>
   );

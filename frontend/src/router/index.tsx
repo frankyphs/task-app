@@ -6,6 +6,7 @@ import Table from "../components/Table";
 // import Customize from "../components/Customize";
 import CustomizeRevise from "../components/CustomizeRevise";
 import Data from "../components/Data";
+import Tes from "../components/Tes";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "/customize-form",
         element: <CustomizeRevise />,
       },
+      // {
+      //   path: "/tes-task",
+      //   element: <Tes />,
+      // },
     ],
   },
 ]);
