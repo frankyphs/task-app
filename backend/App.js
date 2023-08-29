@@ -16,14 +16,9 @@ app.use(bodyParser.json());
 let tasks = [];
 
 app.post(`/tasks`, async (req, res) => {
-  const { title, description, ...customData } = req.body;
-  if (!title || !description) {
-    return res
-      .status(400)
-      .json({ error: "Title and description are required" });
-  }
+  const { ...customData } = req.body;
 
-  const newTask = { id: tasks.length + 1, title, description, ...customData };
+  const newTask = { id: tasks.length + 1, ...customData };
   tasks.push(newTask);
   return res.status(201).json(newTask);
 });

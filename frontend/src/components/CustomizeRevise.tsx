@@ -158,22 +158,36 @@ const CustomizeRevise: React.FC = () => {
   const modifyArray = (array: FormElement[][]): FormElement[][] => {
     let result: FormElement[][] = [];
 
-    // Tambahkan array baru di indeks pertama
     result.push([]);
 
     for (let i = 0; i < array.length; i++) {
       result.push(array[i]);
 
-      // Tambahkan array baru di antara indeks
       if (i < array.length - 1) {
         result.push([]);
       }
     }
 
-    // Tambahkan array baru di indeks terakhir
     result.push([]);
 
     return result;
+  };
+
+  //nampilin tombol delete
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [deleteButtonIndex, setDeleteButtonIndex] = useState(null);
+  const [deleteButtonRow, setDeleteButtonRow] = useState(null);
+
+  const handleMouseEnter = (row, index) => {
+    setShowDeleteButton(true);
+    setDeleteButtonIndex(index);
+    setDeleteButtonRow(row);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDeleteButton(false);
+    setDeleteButtonIndex(null);
+    setDeleteButtonRow(null);
   };
 
   useEffect(() => {
@@ -415,32 +429,38 @@ const CustomizeRevise: React.FC = () => {
                                           {...provided.draggableProps}
                                           ref={provided.innerRef}
                                           className="draggable-item-secondary"
+                                          onMouseEnter={() =>
+                                            handleMouseEnter(rowIndex, colIndex)
+                                          }
+                                          onMouseLeave={() =>
+                                            handleMouseLeave()
+                                          }
                                         >
                                           <div className="nama-form">
-                                            <h3>
-                                              {el.name} -- {el.type}
-                                            </h3>
-                                            <div>
-                                              <button
-                                                onClick={() =>
-                                                  handleOpenPanel(
-                                                    el.name,
-                                                    el.id
-                                                  )
-                                                }
-                                                className="tombol-edit"
-                                              >
-                                                Edit
-                                              </button>
-                                              <button
-                                                onClick={() =>
-                                                  handleDeleteComponent(el.id)
-                                                }
-                                                className="tombol-edit"
-                                              >
-                                                X
-                                              </button>
-                                            </div>
+                                            <button
+                                              onClick={() =>
+                                                handleOpenPanel(el.name, el.id)
+                                              }
+                                              className="tombol-edit"
+                                            >
+                                              {el.name}
+                                            </button>
+                                            {showDeleteButton &&
+                                              deleteButtonIndex === colIndex &&
+                                              deleteButtonRow === rowIndex && (
+                                                <div>
+                                                  <button
+                                                    onClick={() =>
+                                                      handleDeleteComponent(
+                                                        el.id
+                                                      )
+                                                    }
+                                                    className="tombol-delete"
+                                                  >
+                                                    <i className="fas fa-trash"></i>
+                                                  </button>
+                                                </div>
+                                              )}
                                           </div>
 
                                           {el.type === "TextField" && (

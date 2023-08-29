@@ -21,6 +21,10 @@ const Table = () => {
     description: "",
   });
 
+  console.log(tasks, "INI TASKS");
+
+  const { templates } = useSelector((state) => state.templates);
+
   // const { template } = useSelector((state) => state.template);
 
   const [error, setError] = useState({
@@ -74,6 +78,8 @@ const Table = () => {
     }));
   };
 
+  // console.log(templates, "ini template");
+
   const handleEditConfirmation = () => {
     if (formData.title.trim() === "" || formData.description.trim() === "") {
       setError({ show: true, message: "Please fill all the fields" });
@@ -88,34 +94,9 @@ const Table = () => {
     }
   };
 
-  // Read
-  // useEffect(() => {
-  //   dispatch(fetchTasks(currentPage, limitPerPage));
-  // }, [dispatch, currentPage]);
-
-  // useEffect(() => {
-  //   const leftColumns = leftColumnComponents.map((column) => {
-  //     return {
-  //       name: column.name,
-  //       component: column.component,
-  //       key: `left_${column.name}`,
-  //     };
-  //   });
-
-  //   const rightColumns = rightColumnComponents.map((column) => {
-  //     return {
-  //       name: column.name,
-  //       component: column.component,
-  //       key: `right_${column.name}`,
-  //     };
-  //   });
-
-  //   setAdditionalColumns([...leftColumns, ...rightColumns]);
-  // }, [leftColumnComponents, rightColumnComponents]);
-
   useEffect(() => {
     dispatch(fetchTasks(currentPage, limitPerPage));
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, templates]);
 
   useEffect(() => {}, []);
 
@@ -127,124 +108,129 @@ const Table = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
+  const renderTableHead = () => {
+    const tableHeadCells = templates.flatMap((row) =>
+      row.map((field) => <th key={field.id}>{field.name}</th>)
+    );
+    return (
+      <thead>
+        <tr>
+          <th>No</th>
+          {tableHeadCells}
+          <th>Action</th>
+        </tr>
+      </thead>
+    );
+  };
+
+  const renderTableBody = () => {
+    return (
+      <tbody>
+        {tasks.map((task) => (
+          <tr key={task.id}>
+            <td>{task.id}</td>
+            {templates.flatMap((row) =>
+              row.map((field) => <td key={field.id}>{task[field.id]}</td>)
+            )}
+            <td>
+              <button
+                onClick={() => handleDeleteClick(task)}
+                className="button-delete"
+                title="Delete"
+              >
+                <i className="fas fa-trash-alt"></i>
+              </button>
+              <button
+                onClick={() => handleEditClick(task)}
+                className="button-edit"
+                title="Edit"
+              >
+                <i className="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    );
+  };
+
+  // const rows = Object.entries(formValues);
   return (
     <>
       <h1>List of My Tasks</h1>
+      {JSON.stringify(tasks)}
+      <p>Franky</p>
+      {JSON.stringify(templates)}
+      {/* {JSON.stringify(templates)} */}
       <div className="table-container">
         <table>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Task Name</th>
-              <th>Task Description</th>
-              {additionalColumns.map((column) => (
-                <th key={column.key}>{column.name}</th>
-              ))}
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task, index) => (
-              <tr key={task.id}>
-                <td>{index + 1}</td>
-                <td>{task?.title}</td>
-                <td>{task?.description}</td>
-                {Object.keys(task).map((key) => {
-                  const isReservedKey = ["id", "title", "description"].includes(
-                    key
-                  );
-                  if (!isReservedKey) {
-                    return <td key={key}>{task[key] ?? "null"}</td>;
-                  }
-                })}
-                <td>
-                  <button
-                    onClick={() => handleDeleteClick(task)}
-                    className="button-delete"
-                    title="Delete"
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                  </button>
-                  <button
-                    onClick={() => handleEditClick(task)}
-                    className="button-edit"
-                    title="Edit"
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {renderTableHead()}
+          {renderTableBody()}
+          {deletingTask !== null && (
+            <Dialog
+              hidden={!isDeleteModalOpen}
+              dialogContentProps={{
+                type: DialogType.normal,
+                title: `Apakah kamu yakin ingin menghapus ${deletingTask.title}?`,
+              }}
+              modalProps={{
+                isBlocking: true,
+              }}
+            >
+              <DialogFooter>
+                <PrimaryButton text="Yes" onClick={handleDeleteConfirmation} />
+                <DefaultButton text="No" onClick={handleDeleteCancel} />
+              </DialogFooter>
+            </Dialog>
+          )}
 
-            {deletingTask !== null && (
-              <Dialog
-                hidden={!isDeleteModalOpen}
-                dialogContentProps={{
-                  type: DialogType.normal,
-                  title: `Apakah kamu yakin ingin menghapus ${deletingTask.title}?`,
-                }}
-                modalProps={{
-                  isBlocking: true,
-                }}
-              >
-                <DialogFooter>
-                  <PrimaryButton
-                    text="Yes"
-                    onClick={handleDeleteConfirmation}
-                  />
-                  <DefaultButton text="No" onClick={handleDeleteCancel} />
-                </DialogFooter>
-              </Dialog>
-            )}
-
-            {editingTask !== null && (
-              <Dialog
-                hidden={!isEditModalOpen}
-                dialogContentProps={{
-                  type: DialogType.normal,
-                  title: `Edit Task`,
-                }}
-                modalProps={{
-                  isBlocking: true,
-                }}
-              >
-                {error.show && (
-                  <div
-                    style={{
-                      fontSize: "22px",
-                      color: "red",
-                      marginLeft: "14px",
-                    }}
-                  >
-                    {error.message}
-                  </div>
-                )}
-                <div>
-                  <TextField
-                    label="Title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    name="title"
-                  />
-                  <TextField
-                    label="Description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    name="description"
-                    multiline
-                    autoAdjustHeight
-                  />
+          {editingTask !== null && (
+            <Dialog
+              hidden={!isEditModalOpen}
+              dialogContentProps={{
+                type: DialogType.normal,
+                title: `Edit Task`,
+              }}
+              modalProps={{
+                isBlocking: true,
+              }}
+            >
+              {error.show && (
+                <div
+                  style={{
+                    fontSize: "22px",
+                    color: "red",
+                    marginLeft: "14px",
+                  }}
+                >
+                  {error.message}
                 </div>
-                <DialogFooter>
-                  <PrimaryButton text="Edit" onClick={handleEditConfirmation} />
-                  <DefaultButton
-                    text="Cancel"
-                    onClick={() => setIsEditModalOpen(false)}
-                  />
-                </DialogFooter>
-              </Dialog>
-            )}
-          </tbody>
+              )}
+              <div>
+                <TextField
+                  label="Title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  name="title"
+                />
+                <TextField
+                  label="Description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  name="description"
+                  multiline
+                  autoAdjustHeight
+                />
+              </div>
+              <DialogFooter>
+                <PrimaryButton text="Edit" onClick={handleEditConfirmation} />
+                <DefaultButton
+                  text="Cancel"
+                  onClick={() => setIsEditModalOpen(false)}
+                />
+              </DialogFooter>
+            </Dialog>
+          )}
         </table>
         <div className="button-page">
           <DefaultButton

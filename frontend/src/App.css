@@ -247,10 +247,14 @@ div[draggable] {
   /* overflow: hidden; */
 }
 
-.draggable-item-secondary{
+.draggable-item-secondary {
   width: 100%;
   background-color: #FFF;
   /* overflow: hidden; */
+}
+
+.draggable-item-secondary:hover .delete {
+  display:block  
 }
 
 .container-custom{
@@ -331,8 +335,9 @@ height: 120px;
 }
 
 .empty-row {
-  height: 10px;
-  background-color: #FFF;
+  height: 1px;
+  background-color: #FFF !important;
+  border: none;
 }
 
 .div-baris{
@@ -343,7 +348,7 @@ height: 120px;
 .div-kolom{
  width: 100%;
  margin:0 20px;
- 
+
 }
 
 .div-komponen{
@@ -360,6 +365,14 @@ height: 120px;
  }
 
 
+.arrowButtonsContainer-165{
+  display: flex
+}
+
+.arrowButtonsContainer-166{
+  display: flex
+}
+
 .arrowButtonsContainer-167{
   display: flex
 }
@@ -370,6 +383,7 @@ height: 120px;
   border: none;
   padding: 2px 3px;
   border-radius: 3px;
+  font-size: 15px;
 }
 
 .tombol-edit:hover{
@@ -378,4 +392,13 @@ color: #fff;
 }
 
 
+.tombol-delete{
+  text-decoration: none;
+  margin: 3px 5px;
+  border: none;
+  padding: 2px 3px;
+  border-radius: 3px;
+  font-size: 15px;
+  /* display: none; */
+}
 
