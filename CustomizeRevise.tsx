@@ -12,7 +12,6 @@ import {
   DialogFooter,
   DialogType,
   DefaultButton,
-  Panel,
 } from "@fluentui/react";
 import AddFormRevision from "./AddFormRevision";
 import Data from "./Data";
@@ -90,46 +89,37 @@ const CustomizeRevise: React.FC = () => {
     show: false,
     message: "",
   });
+  const [dialogInputValue, setDialogInputValue] = useState("");
+  const handleDialogInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDialogInputValue(event.target.value);
+  };
 
-  const handlePanelSave = () => {
-    if (editingComponentName.trim() === "") {
+  const handleDialogSave = () => {
+    if (dialogInputValue.trim() === "") {
       setError({ show: true, message: "Please enter a valid name." });
       return;
     }
 
-    // Cari indeks dan grup komponen yang sesuai dengan id
-    let targetGroupIndex = -1;
-    let targetComponentIndex = -1;
+    // Mengganti newComponent.name dengan dialogInputValue
+    const updatedComponent = {
+      ...newComponent,
+      name: dialogInputValue,
+    };
 
-    template.forEach((group, groupIndex) => {
-      group.forEach((component, componentIndex) => {
-        if (component.id == editingComponentID) {
-          targetGroupIndex = groupIndex;
-          targetComponentIndex = componentIndex;
-        }
-      });
-    });
-
-    if (targetGroupIndex !== -1 && targetComponentIndex !== -1) {
-      // Salin array template dan perbarui komponen yang sesuai
-      const updatedTemplate = [...template];
-      updatedTemplate[targetGroupIndex][targetComponentIndex] = {
-        ...updatedTemplate[targetGroupIndex][targetComponentIndex],
-        name: editingComponentName,
-      };
-
-      // Simpan perubahan ke state template
-      setTemplate(updatedTemplate);
-    }
-
-    setError({ show: false, message: "" });
-    setIsPanelOpen(false);
+    // Setelah semua perubahan selesai, tutup dialog
+    setNewComponent(updatedComponent);
+    setShowDialog(false);
+    setDialogInputValue(""); // Reset input nilai
+    setError({ show: false, message: "" }); // Reset error
+    setShouldExecuteDragAndDrop(true);
   };
 
-  // Panel
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [editingComponentName, setEditingComponentName] = useState("");
-  const [editingComponentID, setEditingComponentID] = useState("");
+  const handleDialogCancel = () => {
+    setShowDialog(false);
+    setDialogInputValue("");
+  };
 
   // handle array template
   const filterArray = (array: FormElement[][]): FormElement[][] => {
@@ -137,29 +127,15 @@ const CustomizeRevise: React.FC = () => {
     return simpanArray;
   };
 
-  const handleOpenPanel = (nameComponent, idComponent) => {
-    setIsPanelOpen(true);
-    setEditingComponentName(nameComponent);
-    setEditingComponentID(idComponent);
-  };
-
   const modifyArray = (array: FormElement[][]): FormElement[][] => {
     let result: FormElement[][] = [];
 
-    // Tambahkan array baru di indeks pertama
-    result.push([]);
-
     for (let i = 0; i < array.length; i++) {
       result.push(array[i]);
-
-      // Tambahkan array baru di antara indeks
       if (i < array.length - 1) {
         result.push([]);
       }
     }
-
-    // Tambahkan array baru di indeks terakhir
-    result.push([]);
 
     return result;
   };
@@ -185,38 +161,40 @@ const CustomizeRevise: React.FC = () => {
     //Ini logic untuk menambah array baru (baris baru) pada area form
     if (!destination) {
       //nambah komponen pada row yang baru pada area droppable utama
-      // if (source.droppableId !== "component") {
-      //   const arrayBaru: any[] = [];
-      //   const newTemplate = [...template];
-      //   const simpanArrayAsal = [...newTemplate[source.droppableId]];
-      //   const [movedComponent] = simpanArrayAsal.splice(source.index, 1);
-      //   arrayBaru.push(movedComponent);
-      //   newTemplate[source.droppableId] = simpanArrayAsal;
-      //   newTemplate.push(arrayBaru);
-      //   const newArray = filterArray(newTemplate);
-      //   const finalArray = modifyArray(newArray);
-      //   setTemplate(finalArray);
-      // } else if (source.droppableId === "component") {
-      //   const newTemplate = [...template];         //mindahin komponen existing ke row yang baru
-      //   const reorderedComponents = [...custom];
-      //   const arrayTujuanBaru: any[] = [];
-      //   const [movedOriginComponent] = reorderedComponents.splice(
-      //     source.index,
-      //     1
-      //   );
-      //   const newComponent = {
-      //     type: movedOriginComponent.type,
-      //     id: new Date().getTime().toString(),
-      //     name: movedOriginComponent.id,
-      //   };
-      //   arrayTujuanBaru.push(newComponent);
-      //   newTemplate.push(arrayTujuanBaru);
-      //   setCustom(custom);
-      //   const newArray = filterArray(newTemplate);
-      //   const finalArray = modifyArray(newArray);
-      //   setTemplate(finalArray);
-      // }
-      return;
+      if (source.droppableId !== "component") {
+        const arrayBaru: any[] = [];
+        const newTemplate = [...template];
+        const simpanArrayAsal = [...newTemplate[source.droppableId]];
+        const [movedComponent] = simpanArrayAsal.splice(source.index, 1);
+        arrayBaru.push(movedComponent);
+        newTemplate[source.droppableId] = simpanArrayAsal;
+        newTemplate.push(arrayBaru);
+        const newArray = filterArray(newTemplate);
+        const finalArray = modifyArray(newArray);
+        setTemplate(finalArray);
+        // setTemplate(modifyArray(filterArray(newTemplate)))
+      } else if (source.droppableId === "component") {
+        //mindahin komponen existing ke row yang baru
+        const newTemplate = [...template];
+        const reorderedComponents = [...custom];
+        const arrayTujuanBaru: any[] = [];
+        const [movedOriginComponent] = reorderedComponents.splice(
+          source.index,
+          1
+        );
+        const newComponent = {
+          type: movedOriginComponent.type,
+          id: new Date().getTime().toString(),
+          name: movedOriginComponent.id,
+        };
+        arrayTujuanBaru.push(newComponent);
+        newTemplate.push(arrayTujuanBaru);
+        setCustom(custom);
+        const newArray = filterArray(newTemplate);
+        const finalArray = modifyArray(newArray);
+        setTemplate(finalArray);
+        // setTemplate(modifyArray(filterArray(newTemplate)))
+      }
     }
 
     // ini logic ketika tidak terjadi perubahan apapun
@@ -258,27 +236,29 @@ const CustomizeRevise: React.FC = () => {
       source.droppableId === "component" &&
       destination.droppableId !== "group"
     ) {
-      // setShowDialog(true);
-      const newTemplate = [...template];
-      const reorderedComponents = [...custom];
-      const arrayDropId = destination.droppableId;
-      const simpanArrayTujuan = [...newTemplate[arrayDropId]];
-      const [movedOriginComponent] = reorderedComponents.splice(
-        source.index,
-        1
-      );
-      const newComponent: FormElement = {
-        type: movedOriginComponent.type,
-        id: new Date().getTime().toString(),
-        name: movedOriginComponent.id,
-      };
+      setShowDialog(true);
+      if (shouldExecuteDragAndDrop) {
+        const newTemplate = [...template];
+        const reorderedComponents = [...custom];
+        const arrayDropId = destination.droppableId;
+        const simpanArrayTujuan = [...newTemplate[arrayDropId]];
+        const [movedOriginComponent] = reorderedComponents.splice(
+          source.index,
+          1
+        );
+        const komponent: FormElement = {
+          type: movedOriginComponent.type,
+          id: new Date().getTime().toString(),
+          name: newComponent.name,
+        };
 
-      simpanArrayTujuan.splice(destination.index, 0, newComponent);
-      newTemplate[destination.droppableId] = simpanArrayTujuan;
-      setCustom(custom);
-      const newArray = filterArray(newTemplate);
-      const finalArray = modifyArray(newArray);
-      setTemplate(finalArray);
+        simpanArrayTujuan.splice(destination.index, 0, newComponent);
+        newTemplate[destination.droppableId] = simpanArrayTujuan;
+        setCustom(custom);
+        const newArray = filterArray(newTemplate);
+        const finalArray = modifyArray(newArray);
+        setTemplate(finalArray);
+      }
     }
 
     // ini logic untuk pemindahan komponen antar baris row
@@ -299,7 +279,7 @@ const CustomizeRevise: React.FC = () => {
       setTemplate(finalArray);
       // setTemplate(modifyArray(filterArray(newTemplate)))
     }
-    console.log(template, "Ini Template");
+    // console.log(template, "Ini Template");
   };
 
   return (
@@ -403,20 +383,9 @@ const CustomizeRevise: React.FC = () => {
                                           ref={provided.innerRef}
                                           className="draggable-item-secondary"
                                         >
-                                          <div className="nama-form">
-                                            <h3>
-                                              {el.name} -- {el.type}
-                                            </h3>
-                                            <button
-                                              onClick={() =>
-                                                handleOpenPanel(el.name, el.id)
-                                              }
-                                              className="tombol-edit"
-                                            >
-                                              Edit
-                                            </button>
-                                          </div>
-
+                                          <h3>
+                                            Item {el.type} : name :{el.name}
+                                          </h3>
                                           {el.type === "TextField" && (
                                             <TextField disabled={true} />
                                           )}
@@ -450,12 +419,14 @@ const CustomizeRevise: React.FC = () => {
       <PrimaryButton className="add-form-button" onClick={handleSave}>
         Save Template
       </PrimaryButton>
-      <Panel
-        isOpen={isPanelOpen}
-        onDismiss={() => setIsPanelOpen(false)}
-        headerText="Edit Component" // Judul panel
+      <Dialog
+        hidden={!showDialog}
+        onDismiss={handleDialogCancel}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: "Enter Component Name",
+        }}
       >
-        {/* Isi panel */}
         {error.show && (
           <div style={{ fontSize: "18px", color: "red", textAlign: "center" }}>
             {error.message}
@@ -463,12 +434,14 @@ const CustomizeRevise: React.FC = () => {
         )}
         <TextField
           label="Component Name"
-          value={editingComponentName}
-          onChange={(e) => setEditingComponentName(e.target.value)}
+          value={dialogInputValue}
+          onChange={handleDialogInputChange}
         />
-        {/* Tambahan elemen-elemen pengeditan lainnya */}
-        <PrimaryButton text="Save" onClick={handlePanelSave} />
-      </Panel>
+        <DialogFooter>
+          <PrimaryButton text="Yes" onClick={handleDialogSave} />
+          <DefaultButton text="No" onClick={handleDialogCancel} />
+        </DialogFooter>
+      </Dialog>
     </>
   );
 };

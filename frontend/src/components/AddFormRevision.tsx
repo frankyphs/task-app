@@ -16,18 +16,12 @@ interface FormElement {
   name: string;
 }
 
-interface TemplateRow extends Array<FormElement> {}
-
 interface AddFormProps {
   onSave: (formValues: Record<string, any>) => void;
+  template: FormElement[][];
 }
 
 const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const { template } = useSelector((state: any) => state.template);
-
   const [formValues, setFormValues] = useState<Record<string, any>>({});
 
   const handleFormChange = (id: string, value: any) => {
@@ -40,12 +34,6 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
   const handleSubmit = () => {
     onSave(formValues);
   };
-
-  // useEffect(() => {
-  //   dispatch(saveTemplate(template));
-  // }, []);
-
-  // console.log(template, "ini templateeeeeeeee");
 
   return (
     <>
@@ -68,14 +56,15 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
                         onChange={(e, newValue) =>
                           handleFormChange(el.id, newValue)
                         }
-                        label={el.type}
+                        label={el.name}
                       />
                     )}
                     {el.type === "SpinButton" && (
                       <SpinButton
                         value={formValues[el.id] || ""}
                         onChange={(_, value) => handleFormChange(el.id, value)}
-                        label={el.type}
+                        label={el.name}
+                        className="spin-button"
                       />
                     )}
                     {el.type === "DatePicker" && (
@@ -83,7 +72,7 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
                         value={formValues[el.id] || null}
                         onSelectDate={(date) => handleFormChange(el.id, date)}
                         placeholder="Enter Date"
-                        label={el.type}
+                        label={el.name}
                       />
                     )}
                   </div>

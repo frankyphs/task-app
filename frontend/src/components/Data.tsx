@@ -18,6 +18,9 @@ function Data() {
       </div>
     );
   }
+
+  // melakukan save data ke dalam tabel
+
   return (
     <div>
       <AddFormRevision

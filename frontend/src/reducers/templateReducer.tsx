@@ -21,7 +21,17 @@
 
 import { FETCH_FORM } from "../actions/actionType";
 const initialState = {
-  template: [],
+  template: [
+    [
+      { type: "TextField", id: "1", name: "Judul" },
+      { type: "TextField", id: "4", name: "Subjek" },
+    ],
+    [{ type: "SpinButton", id: "3", name: "Repetisi" }],
+    [
+      { type: "DatePicker", id: "5", name: "Deadline" },
+      { type: "TextField", id: "6", name: "Deskripsi" },
+    ],
+  ],
 };
 
 const templateReducer = (state = initialState, action) => {

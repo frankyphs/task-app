@@ -342,7 +342,8 @@ height: 120px;
 
 .div-kolom{
  width: 100%;
- margin:0 20px
+ margin:0 20px;
+ 
 }
 
 .div-komponen{
@@ -353,8 +354,28 @@ height: 120px;
 .komponen-komponen{
   border: 1px solid black;
 }
+ .nama-form{
+  display: flex;
+  justify-content: space-between;
+ }
 
 
+.arrowButtonsContainer-167{
+  display: flex
+}
+
+.tombol-edit{
+  text-decoration: none;
+  margin: 3px 5px;
+  border: none;
+  padding: 2px 3px;
+  border-radius: 3px;
+}
+
+.tombol-edit:hover{
+  background-color: #4477CE;
+color: #fff;
+}
 
 
 
