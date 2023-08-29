@@ -21,7 +21,7 @@ const Table = () => {
     description: "",
   });
 
-  const { template } = useSelector((state) => state.template);
+  // const { template } = useSelector((state) => state.template);
 
   const [error, setError] = useState({
     show: false,

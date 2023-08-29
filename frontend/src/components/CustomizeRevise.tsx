@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
 import {
   PrimaryButton,
   TextField,
@@ -17,7 +18,7 @@ import {
 import AddFormRevision from "./AddFormRevision";
 import Data from "./Data";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveTemplate } from "../actions/actionCreator";
 
 interface TextField {
@@ -43,19 +44,6 @@ interface DatePicker {
 
 type FormElement = TextField | SpinButton | DatePicker;
 
-// const FORM: FormElement[][] = [
-//   [
-//     { type: "TextField", id: "1", name: 1 },
-//     { type: "TextField", id: "4", name: 4 },
-//     { type: "TextField", id: "7", name: 7 },
-//   ],
-//   [{ type: "SpinButton", id: "3", name: 3 }],
-//   [
-//     { type: "DatePicker", id: "5", name: 5 },
-//     { type: "TextField", id: "6", name: 6 },
-//   ],
-// ];
-
 const FORM: FormElement[][] = [
   [
     { type: "TextField", id: "1", name: "Judul" },
@@ -76,6 +64,7 @@ const COMPONENT: Component[] = [
 ];
 
 const CustomizeRevise: React.FC = () => {
+  const { templates } = useSelector((state: any) => state.templates);
   const [template, setTemplate] = useState<FormElement[][]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -125,6 +114,29 @@ const CustomizeRevise: React.FC = () => {
     setError({ show: false, message: "" });
     setIsPanelOpen(false);
   };
+  const handleDeleteComponent = (id) => {
+    // Mencari indeks dan grup komponen yang akan dihapus
+    let targetGroupIndex = -1;
+    let targetComponentIndex = -1;
+
+    template.forEach((group, groupIndex) => {
+      group.forEach((component, componentIndex) => {
+        if (component.id === id) {
+          targetGroupIndex = groupIndex;
+          targetComponentIndex = componentIndex;
+        }
+      });
+    });
+
+    if (targetGroupIndex !== -1 && targetComponentIndex !== -1) {
+      // Salin array template dan hapus komponen yang sesuai
+      const updatedTemplate = [...template];
+      updatedTemplate[targetGroupIndex].splice(targetComponentIndex, 1);
+
+      // Simpan perubahan ke state template
+      setTemplate(modifyArray(filterArray(updatedTemplate)));
+    }
+  };
 
   // Panel
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -165,7 +177,7 @@ const CustomizeRevise: React.FC = () => {
   };
 
   useEffect(() => {
-    setTemplate(modifyArray(FORM));
+    setTemplate(modifyArray(templates));
   }, []);
 
   // const handleSave = () => {
@@ -304,6 +316,7 @@ const CustomizeRevise: React.FC = () => {
 
   return (
     <>
+      {JSON.stringify(templates)}{" "}
       <div>
         <DragDropContext onDragEnd={handleDragandDrops}>
           <Droppable
@@ -407,14 +420,27 @@ const CustomizeRevise: React.FC = () => {
                                             <h3>
                                               {el.name} -- {el.type}
                                             </h3>
-                                            <button
-                                              onClick={() =>
-                                                handleOpenPanel(el.name, el.id)
-                                              }
-                                              className="tombol-edit"
-                                            >
-                                              Edit
-                                            </button>
+                                            <div>
+                                              <button
+                                                onClick={() =>
+                                                  handleOpenPanel(
+                                                    el.name,
+                                                    el.id
+                                                  )
+                                                }
+                                                className="tombol-edit"
+                                              >
+                                                Edit
+                                              </button>
+                                              <button
+                                                onClick={() =>
+                                                  handleDeleteComponent(el.id)
+                                                }
+                                                className="tombol-edit"
+                                              >
+                                                X
+                                              </button>
+                                            </div>
                                           </div>
 
                                           {el.type === "TextField" && (

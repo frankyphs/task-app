@@ -21,7 +21,7 @@
 
 import { FETCH_FORM } from "../actions/actionType";
 const initialState = {
-  template: [
+  templates: [
     [
       { type: "TextField", id: "1", name: "Judul" },
       { type: "TextField", id: "4", name: "Subjek" },
@@ -39,7 +39,7 @@ const templateReducer = (state = initialState, action) => {
     case FETCH_FORM:
       return {
         ...state,
-        template: action.payload,
+        templates: action.payload,
       };
     default:
       return state;

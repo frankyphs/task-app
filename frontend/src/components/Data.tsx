@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveTemplate } from "../actions/actionCreator";
 
 function Data() {
-  const { template } = useSelector((state: any) => state.template);
-  console.log(template, "Ini template");
-  if (template === undefined) {
+  const { templates } = useSelector((state: any) => state.templates);
+  console.log(templates, "Ini template");
+  if (templates === undefined) {
     return (
       <div>
         <NavLink to="/customize-form" style={{ fontSize: "24px" }}>
@@ -23,11 +23,12 @@ function Data() {
 
   return (
     <div>
+      {JSON.stringify(templates)}
       <AddFormRevision
         onSave={(formValues) => {
           console.log(formValues);
         }}
-        template={template}
+        template={templates}
       />
     </div>
   );

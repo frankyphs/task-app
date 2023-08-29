@@ -9,7 +9,7 @@ import templateReducer from "../reducers/templateReducer";
 
 const rootReducer = combineReducers({
   tasks: taskReducer,
-  template: templateReducer,
+  templates: templateReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
