@@ -1,12 +1,12 @@
 /*  import google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500&display=swap');
 
 /* normalize the page */
 *{
   margin: 0 0;
   padding: 0 0;
   box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Roboto Flex', sans-serif;
 }
 .container{
   display: flex;
@@ -64,8 +64,8 @@
 }
 
 .table-container{
-  margin: 0;
-  width: 95%;
+  margin: 0px 15px;
+  width: 98%;
 }
 
 .table-container table {
@@ -104,6 +104,15 @@ td button {
 
 td button{
   cursor: pointer;
+}
+
+.button-delete .button-edit{
+  width:100px;
+  height: 100px;
+  /* margin: 0 100px; */
+}
+.fas{
+  margin: 10px 10px;
 }
 
 .button-delete:hover{
@@ -215,18 +224,21 @@ button {
 
 
 /* Styling for the draggable components */
-div[draggable] {
+/* div[draggable] {
+   margin: 10px 0px;
   cursor: move;
-  margin: 10px 0px;
-  /* padding: 10px; */
+ 
   border: 1px dashed #ccc;
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
+} */
 
 .draggable-component{
   padding: 20px;
-  margin: 20px 100px;
+  margin: 20px 10px;
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -245,11 +257,20 @@ div[draggable] {
   background-color: #FFF;
   /* margin: 0 0; */
   /* overflow: hidden; */
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .draggable-item-secondary {
   width: 100%;
   background-color: #FFF;
+  margin: 10px 0px;
+  cursor: move;
+ 
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   /* overflow: hidden; */
 }
 
@@ -328,6 +349,7 @@ height: 120px;
 
 .bungkus{
   width: 100%;
+  margin: 5px 0;
 }
 
 .filled-row {
@@ -335,7 +357,7 @@ height: 120px;
 }
 
 .empty-row {
-  height: 1px;
+  height: 5px;
   background-color: #FFF !important;
   border: none;
 }
@@ -402,3 +424,11 @@ color: #fff;
   /* display: none; */
 }
 
+
+.kepala-tabel{
+  font-size: 20px;
+}
+
+.detail-list{
+  width: 100%;
+}

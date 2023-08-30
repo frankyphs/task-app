@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,8 +11,9 @@ import {
   PrimaryButton,
   TextField,
   DetailsList,
-  DetailsListLayoutMode,
   SelectionMode,
+  buildColumns,
+  IconButton,
 } from "@fluentui/react";
 const Table = () => {
   const { tasks } = useSelector((state) => state.tasks);
@@ -81,6 +83,8 @@ const Table = () => {
     }));
   };
 
+  // console.log(templates, "ini template");
+
   const handleEditConfirmation = () => {
     if (formData.title.trim() === "" || formData.description.trim() === "") {
       setError({ show: true, message: "Please fill all the fields" });
@@ -109,7 +113,6 @@ const Table = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
-  // pakai table biasa
   const renderTableHead = () => {
     const tableHeadCells = templates.flatMap((row) =>
       row.map((field) => <th key={field.id}>{field.name}</th>)
@@ -156,72 +159,16 @@ const Table = () => {
     );
   };
 
-  // pakai DetailsList
-  const renderDetailsListColumns = () => {
-    const columns = [
-      {
-        key: "id",
-        name: "No",
-        fieldName: "id",
-        minWidth: 50,
-        maxWidth: 50,
-        isResizable: true,
-        className: "kepala-tabel",
-        onRender: (item, index) => index + 1,
-      },
-      ...templates.flatMap((row) =>
-        row.map((field) => ({
-          key: field.id,
-          name: field.name,
-          fieldName: field.id,
-          minWidth: 100,
-          maxWidth: 250,
-          className: "kepala-tabel",
-          isResizable: true,
-        }))
-      ),
-      {
-        key: "actions",
-        name: "Action",
-        minWidth: 100,
-
-        onRender: (item) => (
-          <>
-            <button
-              onClick={() => handleDeleteClick(item)}
-              className="button-delete"
-              title="Delete"
-            >
-              <i className="fas fa-trash-alt"></i>
-            </button>
-            <button
-              onClick={() => handleEditClick(item)}
-              className="button-edit"
-              title="Edit"
-            >
-              <i className="fas fa-edit"></i>
-            </button>
-          </>
-        ),
-      },
-    ];
-    return columns;
-  };
-  const getRowHeight = (item, index) => {
-    return 150;
-  };
-
   // const rows = Object.entries(formValues);
   return (
     <>
       <h1>List of My Tasks</h1>
       {JSON.stringify(tasks)}
-      {/* <p>Franky</p>
-      {JSON.stringify(templates)}  */}
+      <p>Franky</p>
+      {JSON.stringify(templates)}
       {/* {JSON.stringify(templates)} */}
-      {/* <div className="table-container"> */}
       <div className="table-container">
-        {/* <table>
+        <table>
           {renderTableHead()}
           {renderTableBody()}
           {deletingTask !== null && (
@@ -289,30 +236,7 @@ const Table = () => {
               </DialogFooter>
             </Dialog>
           )}
-        </table> */}
-        {deletingTask !== null && (
-          <Dialog
-            hidden={!isDeleteModalOpen}
-            dialogContentProps={{
-              type: DialogType.normal,
-              title: `Apakah kamu yakin ingin menghapus task ini?`,
-            }}
-            modalProps={{
-              isBlocking: true,
-            }}
-          >
-            <DialogFooter>
-              <PrimaryButton text="Yes" onClick={handleDeleteConfirmation} />
-              <DefaultButton text="No" onClick={handleDeleteCancel} />
-            </DialogFooter>
-          </Dialog>
-        )}
-        <DetailsList
-          items={tasks}
-          columns={renderDetailsListColumns()}
-          layoutMode={DetailsListLayoutMode.fixedColumns}
-          // selectionMode={SelectionMode.none}
-        />
+        </table>
         <div className="button-page">
           <DefaultButton
             text="Previous"

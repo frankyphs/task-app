@@ -33,6 +33,23 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
     }));
   };
 
+  function formatDateTime(inputDate) {
+    const dateObj = new Date(inputDate);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZoneName: "short",
+    };
+
+    const formattedDate = dateObj.toLocaleString("id-ID", options);
+    return formattedDate;
+  }
+
   const handleSubmit = () => {
     onSave(formValues);
     navigate("/");

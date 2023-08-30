@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.json());
 
 let tasks = [];
+let template = [];
 
 app.post(`/tasks`, async (req, res) => {
   const { ...customData } = req.body;
@@ -21,6 +22,19 @@ app.post(`/tasks`, async (req, res) => {
   const newTask = { id: tasks.length + 1, ...customData };
   tasks.push(newTask);
   return res.status(201).json(newTask);
+});
+
+app.post(`/template`, async (req, res) => {
+  const { ...customData } = req.body;
+
+  const newTask = { id: tasks.length + 1, ...customData };
+  tasks.push(newTask);
+  return res.status(201).json(newTask);
+});
+
+app.get(`/template`, async (req, res) => {
+  const result = template;
+  return res.json(result);
 });
 
 app.get("/tasks", async (req, res) => {
