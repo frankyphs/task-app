@@ -425,10 +425,19 @@ color: #fff;
 }
 
 
-.kepala-tabel{
-  font-size: 20px;
-}
+/* .kepala-tabel{
+  font-size: 30px;
+} */
 
 .detail-list{
   width: 100%;
 }
+
+.ms-DetailsRow-cell{
+  font-size: 20px;
+}
+
+.ms-DetailsHeader-cell{
+  font-size: 20px;
+}
+

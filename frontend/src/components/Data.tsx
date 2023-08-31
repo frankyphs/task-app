@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AddFormRevision from "./AddFormRevision";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { saveTemplate } from "../actions/actionCreator";
 import { addTask } from "../actions/actionCreator";
 // import { useDispatch } from "react-redux";
+import { fetchTemplate } from "../actions/actionCreator";
 
 function Data() {
   const { templates } = useSelector((state: any) => state.templates);
@@ -21,13 +21,16 @@ function Data() {
       </div>
     );
   }
+  useEffect(() => {
+    dispatch(fetchTemplate());
+  }, [dispatch]);
 
   return (
     <div>
-      {/* {JSON.stringify(templates)} */}
+      <span>Ini templates</span>
+      {JSON.stringify(templates)}
       <AddFormRevision
         onSave={(formValues) => {
-          console.log(formValues, "Ini form values");
           dispatch(addTask(formValues));
         }}
         template={templates}

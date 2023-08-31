@@ -14,27 +14,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.json());
 
 let tasks = [];
-let template = [];
+let template = [
+  [
+    { type: "TextField", id: "1", name: "Judul" },
+    { type: "TextField", id: "4", name: "Subjek" },
+  ],
+  [{ type: "SpinButton", id: "3", name: "Repetisi" }],
+  [
+    { type: "DatePicker", id: "5", name: "Deadline" },
+    { type: "TextField", id: "6", name: "Deskripsi" },
+  ],
+];
 
+//TASKS
 app.post(`/tasks`, async (req, res) => {
   const { ...customData } = req.body;
 
   const newTask = { id: tasks.length + 1, ...customData };
   tasks.push(newTask);
   return res.status(201).json(newTask);
-});
-
-app.post(`/template`, async (req, res) => {
-  const { ...customData } = req.body;
-
-  const newTask = { id: tasks.length + 1, ...customData };
-  tasks.push(newTask);
-  return res.status(201).json(newTask);
-});
-
-app.get(`/template`, async (req, res) => {
-  const result = template;
-  return res.json(result);
 });
 
 app.get("/tasks", async (req, res) => {
@@ -47,6 +45,18 @@ app.get("/tasks", async (req, res) => {
   const results = tasks.slice(startIndex, endIndex);
 
   return res.json(results);
+});
+
+app.post(`/templates`, async (req, res) => {
+  const customData = req.body;
+  template = customData;
+  return res.status(201).json(template);
+});
+
+app.get(`/templates`, async (req, res) => {
+  const result = template;
+  console.log(result, "result template di backend");
+  return res.json(result);
 });
 
 app.get(`/tasks/:id`, async (req, res) => {

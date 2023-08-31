@@ -33,23 +33,6 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
     }));
   };
 
-  function formatDateTime(inputDate) {
-    const dateObj = new Date(inputDate);
-
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZoneName: "short",
-    };
-
-    const formattedDate = dateObj.toLocaleString("id-ID", options);
-    return formattedDate;
-  }
-
   const handleSubmit = () => {
     onSave(formValues);
     navigate("/");
@@ -74,7 +57,7 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
                         placeholder="Enter text"
                         value={formValues[el.id] || ""}
                         onChange={(e, newValue) =>
-                          handleFormChange(el.id, newValue, el.name)
+                          handleFormChange(el.id, newValue)
                         }
                         label={el.name}
                       />
@@ -82,19 +65,21 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
                     {el.type === "SpinButton" && (
                       <SpinButton
                         value={formValues[el.id] || ""}
-                        onChange={(_, value) =>
-                          handleFormChange(el.id, value, el.name)
-                        }
+                        onChange={(_, value) => handleFormChange(el.id, value)}
                         label={el.name}
-                        className="spin-button"
+                        styles={{
+                          arrowButtonsContainer: {
+                            display: "flex",
+                            height: "100%",
+                            cursor: "default",
+                          },
+                        }}
                       />
                     )}
                     {el.type === "DatePicker" && (
                       <DatePicker
                         value={formValues[el.id] || null}
-                        onSelectDate={(date) =>
-                          handleFormChange(el.id, date, el.name)
-                        }
+                        onSelectDate={(date) => handleFormChange(el.id, date)}
                         placeholder="Enter Date"
                         label={el.name}
                       />

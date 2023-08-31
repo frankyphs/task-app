@@ -1,7 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks, deleteTasks, editTask } from "../actions/actionCreator";
+import {
+  fetchTasks,
+  deleteTasks,
+  editTask,
+  fetchTemplate,
+} from "../actions/actionCreator";
 import {
   DefaultButton,
   Dialog,
@@ -12,10 +17,20 @@ import {
   DetailsList,
   DetailsListLayoutMode,
   SelectionMode,
+  IColumn,
 } from "@fluentui/react";
-const Table = () => {
-  const { tasks } = useSelector((state) => state.tasks);
+
+const Table: React.FC = () => {
+  const { tasks } = useSelector((state: any) => state.tasks);
   const dispatch = useDispatch();
+  // Pagination
+  const { templates } = useSelector((state: any) => state.templates);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 5;
+  useEffect(() => {
+    dispatch(fetchTasks(currentPage, limitPerPage));
+    dispatch(fetchTemplate());
+  }, [dispatch, currentPage]);
   const [deletingTask, setDeletingTask] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -24,22 +39,12 @@ const Table = () => {
     description: "",
   });
 
-  console.log(tasks, "INI TASKS");
-
-  const { templates } = useSelector((state) => state.templates);
-
-  // const { template } = useSelector((state) => state.template);
-
   const [error, setError] = useState({
     show: false,
     message: "",
   });
 
   const [additionalColumns, setAdditionalColumns] = useState([]);
-
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 5;
 
   // Delete
   const handleDeleteClick = (task) => {
@@ -94,12 +99,6 @@ const Table = () => {
       setIsEditModalOpen(false);
     }
   };
-
-  useEffect(() => {
-    dispatch(fetchTasks(currentPage, limitPerPage));
-  }, [dispatch, currentPage, templates]);
-
-  useEffect(() => {}, []);
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -158,7 +157,7 @@ const Table = () => {
 
   // pakai DetailsList
   const renderDetailsListColumns = () => {
-    const columns = [
+    const columns: IColumn[] = [
       {
         key: "id",
         name: "No",
@@ -167,7 +166,12 @@ const Table = () => {
         maxWidth: 50,
         isResizable: true,
         className: "kepala-tabel",
-        onRender: (item, index) => index + 1,
+        onRender: (item, index: number) => index + 1,
+        styles: {
+          cellName: {
+            fontSize: "20px",
+          },
+        },
       },
       ...templates.flatMap((row) =>
         row.map((field) => ({
@@ -178,13 +182,22 @@ const Table = () => {
           maxWidth: 250,
           className: "kepala-tabel",
           isResizable: true,
+          styles: {
+            cellName: {
+              fontSize: "20px",
+            },
+          },
         }))
       ),
       {
         key: "actions",
         name: "Action",
         minWidth: 100,
-
+        styles: {
+          cellName: {
+            fontSize: "20px",
+          },
+        },
         onRender: (item) => (
           <>
             <button
@@ -194,13 +207,13 @@ const Table = () => {
             >
               <i className="fas fa-trash-alt"></i>
             </button>
-            <button
+            {/* <button
               onClick={() => handleEditClick(item)}
               className="button-edit"
               title="Edit"
             >
               <i className="fas fa-edit"></i>
-            </button>
+            </button> */}
           </>
         ),
       },
@@ -211,85 +224,13 @@ const Table = () => {
     return 150;
   };
 
-  // const rows = Object.entries(formValues);
   return (
     <>
+      {/* <h1>template</h1>
+      {JSON.stringify(templates)} */}
       <h1>List of My Tasks</h1>
-      {JSON.stringify(tasks)}
-      {/* <p>Franky</p>
-      {JSON.stringify(templates)}  */}
-      {/* {JSON.stringify(templates)} */}
-      {/* <div className="table-container"> */}
+      {/* {JSON.stringify(tasks)} */}
       <div className="table-container">
-        {/* <table>
-          {renderTableHead()}
-          {renderTableBody()}
-          {deletingTask !== null && (
-            <Dialog
-              hidden={!isDeleteModalOpen}
-              dialogContentProps={{
-                type: DialogType.normal,
-                title: `Apakah kamu yakin ingin menghapus ${deletingTask.title}?`,
-              }}
-              modalProps={{
-                isBlocking: true,
-              }}
-            >
-              <DialogFooter>
-                <PrimaryButton text="Yes" onClick={handleDeleteConfirmation} />
-                <DefaultButton text="No" onClick={handleDeleteCancel} />
-              </DialogFooter>
-            </Dialog>
-          )}
-
-          {editingTask !== null && (
-            <Dialog
-              hidden={!isEditModalOpen}
-              dialogContentProps={{
-                type: DialogType.normal,
-                title: `Edit Task`,
-              }}
-              modalProps={{
-                isBlocking: true,
-              }}
-            >
-              {error.show && (
-                <div
-                  style={{
-                    fontSize: "22px",
-                    color: "red",
-                    marginLeft: "14px",
-                  }}
-                >
-                  {error.message}
-                </div>
-              )}
-              <div>
-                <TextField
-                  label="Title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  name="title"
-                />
-                <TextField
-                  label="Description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  name="description"
-                  multiline
-                  autoAdjustHeight
-                />
-              </div>
-              <DialogFooter>
-                <PrimaryButton text="Edit" onClick={handleEditConfirmation} />
-                <DefaultButton
-                  text="Cancel"
-                  onClick={() => setIsEditModalOpen(false)}
-                />
-              </DialogFooter>
-            </Dialog>
-          )}
-        </table> */}
         {deletingTask !== null && (
           <Dialog
             hidden={!isDeleteModalOpen}
@@ -311,7 +252,6 @@ const Table = () => {
           items={tasks}
           columns={renderDetailsListColumns()}
           layoutMode={DetailsListLayoutMode.fixedColumns}
-          // selectionMode={SelectionMode.none}
         />
         <div className="button-page">
           <DefaultButton
