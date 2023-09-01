@@ -25,10 +25,10 @@ const router = createBrowserRouter([
         path: "/customize-form",
         element: <CustomizeRevise />,
       },
-      {
-        path: "/tes-task",
-        element: <Tes />,
-      },
+      // {
+      //   path: "/tes-task",
+      //   element: <Tes />,
+      // },
     ],
   },
 ]);

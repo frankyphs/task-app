@@ -194,10 +194,11 @@ const CustomizeRevise: React.FC = () => {
     setTemplate(modifyArray(templates));
   }, []);
 
-  // const handleSave = () => {
-  //   const arrayBaru = filterArray(template);
-  //   navigate("/add-task", { state: { arrayBaru } });
-  // };
+  const handleComponentNameChange = (
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEditingComponentName(e.currentTarget.value);
+  };
 
   const handleSave = () => {
     const arrayBaru = filterArray(template);
@@ -210,38 +211,6 @@ const CustomizeRevise: React.FC = () => {
 
     //Ini logic untuk menambah array baru (baris baru) pada area form
     if (!destination) {
-      //nambah komponen pada row yang baru pada area droppable utama
-      // if (source.droppableId !== "component") {
-      //   const arrayBaru: any[] = [];
-      //   const newTemplate = [...template];
-      //   const simpanArrayAsal = [...newTemplate[source.droppableId]];
-      //   const [movedComponent] = simpanArrayAsal.splice(source.index, 1);
-      //   arrayBaru.push(movedComponent);
-      //   newTemplate[source.droppableId] = simpanArrayAsal;
-      //   newTemplate.push(arrayBaru);
-      //   const newArray = filterArray(newTemplate);
-      //   const finalArray = modifyArray(newArray);
-      //   setTemplate(finalArray);
-      // } else if (source.droppableId === "component") {
-      //   const newTemplate = [...template];         //mindahin komponen existing ke row yang baru
-      //   const reorderedComponents = [...custom];
-      //   const arrayTujuanBaru: any[] = [];
-      //   const [movedOriginComponent] = reorderedComponents.splice(
-      //     source.index,
-      //     1
-      //   );
-      //   const newComponent = {
-      //     type: movedOriginComponent.type,
-      //     id: new Date().getTime().toString(),
-      //     name: movedOriginComponent.id,
-      //   };
-      //   arrayTujuanBaru.push(newComponent);
-      //   newTemplate.push(arrayTujuanBaru);
-      //   setCustom(custom);
-      //   const newArray = filterArray(newTemplate);
-      //   const finalArray = modifyArray(newArray);
-      //   setTemplate(finalArray);
-      // }
       return;
     }
 
@@ -493,7 +462,11 @@ const CustomizeRevise: React.FC = () => {
           </Droppable>
         </DragDropContext>
       </div>
-      <PrimaryButton className="add-form-button" onClick={handleSave}>
+      <PrimaryButton
+        style={{ margin: "20px", fontSize: "20px" }}
+        className="add-form-button"
+        onClick={handleSave}
+      >
         Save Template
       </PrimaryButton>
       <Panel
@@ -510,7 +483,8 @@ const CustomizeRevise: React.FC = () => {
         <TextField
           label="Component Name"
           value={editingComponentName}
-          onChange={(e) => setEditingComponentName(e.target.value)}
+          // onChange={(e) => setEditingComponentName(e.target.value)}
+          onChange={handleComponentNameChange}
         />
         {/* Tambahan elemen-elemen pengeditan lainnya */}
         <PrimaryButton text="Save" onClick={handlePanelSave} />

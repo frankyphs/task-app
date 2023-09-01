@@ -364,13 +364,18 @@ height: 120px;
 
 .div-baris{
   display: flex;
-  margin: 20px 0px
+  margin: 20px 0px;
+
 }
 
 .div-kolom{
  width: 100%;
  margin:0 20px;
-
+ border: none;
+padding: 15px 7px;
+border-radius: 5px;
+background-color:  #DDE6ED;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .div-komponen{
@@ -441,3 +446,6 @@ color: #fff;
   font-size: 20px;
 }
 
+.ms-Label{
+  font-size: 15px;
+}

@@ -64,7 +64,11 @@ export const deleteTasks = (id:number) => async (dispatch : any) => {
   }
 };
 
-export const addTask = (payload:string) => async (dispatch) => {
+interface FormValues {
+  [key: number]: string | number | Date;
+}
+
+export const addTask = (payload:FormValues) => async (dispatch) => {
   try {
     const opt = {
       method: "post",

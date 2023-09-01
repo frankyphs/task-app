@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import type {} from "redux-thunk/extend-redux";
 import {
   fetchTasks,
   deleteTasks,
@@ -31,7 +32,14 @@ const Table: React.FC = () => {
     dispatch(fetchTasks(currentPage, limitPerPage));
     dispatch(fetchTemplate());
   }, [dispatch, currentPage]);
-  const [deletingTask, setDeletingTask] = useState(null);
+
+  // Type Task
+  type Task = {
+    id: number;
+    [key: string]: string | number | Date;
+  };
+
+  const [deletingTask, setDeletingTask] = useState<Task | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -66,39 +74,40 @@ const Table: React.FC = () => {
 
   // Edit
   // const [originalTaskData, setOriginalTaskData] = useState({});
-  const [editingTaskData, setEditingTaskData] = useState({});
-  const [editingTask, setEditingTask] = useState(null);
-  const handleEditClick = (task) => {
-    setFormData({
-      title: task.title,
-      description: task.description,
-    });
-    setEditingTaskData(task); // Simpan data asli
-    setEditingTask(task);
-    setIsEditModalOpen(true);
-  };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((form) => ({
-      ...form,
-      [name]: value,
-    }));
-  };
+  // const [editingTaskData, setEditingTaskData] = useState({});
+  // const [editingTask, setEditingTask] = useState(null);
+  // const handleEditClick = (task) => {
+  //   setFormData({
+  //     title: task.title,
+  //     description: task.description,
+  //   });
+  //   setEditingTaskData(task); // Simpan data asli
+  //   setEditingTask(task);
+  //   setIsEditModalOpen(true);
+  // };
 
-  const handleEditConfirmation = () => {
-    if (formData.title.trim() === "" || formData.description.trim() === "") {
-      setError({ show: true, message: "Please fill all the fields" });
-    } else {
-      const editedTask = {
-        ...editingTaskData, // Gunakan data asli sebagai basis
-        ...formData, // Gabungkan dengan data yang diedit
-      };
-      console.log(editedTask, "ini edittedd task");
-      dispatch(editTask(editingTask.id, editedTask));
-      setIsEditModalOpen(false);
-    }
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((form) => ({
+  //     ...form,
+  //     [name]: value,
+  //   }));
+  // };
+
+  // const handleEditConfirmation = () => {
+  //   if (formData.title.trim() === "" || formData.description.trim() === "") {
+  //     setError({ show: true, message: "Please fill all the fields" });
+  //   } else {
+  //     const editedTask = {
+  //       ...editingTaskData, // Gunakan data asli sebagai basis
+  //       ...formData, // Gabungkan dengan data yang diedit
+  //     };
+  //     console.log(editedTask, "ini edittedd task");
+  //     dispatch(editTask(editingTask.id, editedTask));
+  //     setIsEditModalOpen(false);
+  //   }
+  // };
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -141,13 +150,13 @@ const Table: React.FC = () => {
               >
                 <i className="fas fa-trash-alt"></i>
               </button>
-              <button
+              {/* <button
                 onClick={() => handleEditClick(task)}
                 className="button-edit"
                 title="Edit"
               >
                 <i className="fas fa-edit"></i>
-              </button>
+              </button> */}
             </td>
           </tr>
         ))}
@@ -165,7 +174,7 @@ const Table: React.FC = () => {
         minWidth: 50,
         maxWidth: 50,
         isResizable: true,
-        className: "kepala-tabel",
+        // className: "kepala-tabel",
         onRender: (item, index: number) => index + 1,
         styles: {
           cellName: {
@@ -180,7 +189,7 @@ const Table: React.FC = () => {
           fieldName: field.id,
           minWidth: 100,
           maxWidth: 250,
-          className: "kepala-tabel",
+          // className: "kepala-tabel",
           isResizable: true,
           styles: {
             cellName: {
@@ -220,9 +229,9 @@ const Table: React.FC = () => {
     ];
     return columns;
   };
-  const getRowHeight = (item, index) => {
-    return 150;
-  };
+  // const getRowHeight = (item, index) => {
+  //   return 150;
+  // };
 
   return (
     <>
@@ -252,6 +261,8 @@ const Table: React.FC = () => {
           items={tasks}
           columns={renderDetailsListColumns()}
           layoutMode={DetailsListLayoutMode.fixedColumns}
+          // borderless
+          // selectionMode={SelectionMode.multiple}
         />
         <div className="button-page">
           <DefaultButton

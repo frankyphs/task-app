@@ -55,7 +55,6 @@ app.post(`/templates`, async (req, res) => {
 
 app.get(`/templates`, async (req, res) => {
   const result = template;
-  console.log(result, "result template di backend");
   return res.json(result);
 });
 

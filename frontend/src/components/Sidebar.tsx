@@ -6,18 +6,18 @@ const Sidebar: React.FC = () => {
     <>
       <div className="sidebar-container">
         <h2>My Task Management</h2>
-        <NavLink exact activeClassName="active" to="/" className="nav-link">
+        <NavLink to="/" className="nav-link">
           My Tasks
           <i className="fas fa-list-ul"></i>
         </NavLink>
-        <NavLink activeClassName="active" to="/add-task" className="nav-link">
+        <NavLink to="/add-task" className="nav-link">
           Add Task
           <i className="fas fa-plus"></i>
         </NavLink>
-        <NavLink activeClassName="active" to="/tes-task" className="nav-link">
+        {/* <NavLink to="/tes-task" className="nav-link">
           Tes Task
           <i className="fas fa-plus"></i>
-        </NavLink>
+        </NavLink> */}
       </div>
     </>
   );

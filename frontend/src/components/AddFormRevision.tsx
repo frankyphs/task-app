@@ -7,9 +7,10 @@ import {
   DatePicker,
   SpinButton,
 } from "@fluentui/react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { saveTemplate } from "../actions/actionCreator";
-// import { useNavigate } from "react-router-dom";
+
+interface FormValues {
+  [key: number]: string | number | Date;
+}
 
 interface FormElement {
   id: string;
@@ -18,12 +19,12 @@ interface FormElement {
 }
 
 interface AddFormProps {
-  onSave: (formValues: Record<string, any>) => void;
+  onSave: (formValues: FormValues) => void;
   template: FormElement[][];
 }
 
 const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
-  const [formValues, setFormValues] = useState<Record<string, any>>({});
+  const [formValues, setFormValues] = useState<FormValues>({});
   const navigate = useNavigate();
 
   const handleFormChange = (id: string, value: any) => {
@@ -36,16 +37,22 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
   const handleSubmit = () => {
     onSave(formValues);
     navigate("/");
+    console.log(formValues, "Ini form Valuesssss");
   };
 
   return (
     <>
       <div className="add-form-container">
-        <NavLink to="/customize-form" style={{ fontSize: "24px" }}>
-          Customize the form
-          <i className="fas fa-cog"></i>
-        </NavLink>
-        {/* {JSON.stringify(template)} */}
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h3>Add Tasks Form</h3>
+          <NavLink
+            to="/customize-form"
+            style={{ fontSize: "24px", textAlign: "right" }}
+          >
+            Customize the form
+            <i className="fas fa-cog"></i>
+          </NavLink>
+        </div>
         <div>
           {template &&
             template.map((row, rowIndex) => (
@@ -90,7 +97,12 @@ const AddFormRevision: React.FC<AddFormProps> = ({ onSave, template }) => {
             ))}
         </div>
 
-        <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
+        <PrimaryButton
+          onClick={handleSubmit}
+          style={{ margin: "20px", fontSize: "20px" }}
+        >
+          Submit
+        </PrimaryButton>
       </div>
     </>
   );

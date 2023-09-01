@@ -4,6 +4,7 @@ import AddFormRevision from "./AddFormRevision";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../actions/actionCreator";
+
 // import { useDispatch } from "react-redux";
 import { fetchTemplate } from "../actions/actionCreator";
 
@@ -27,8 +28,6 @@ function Data() {
 
   return (
     <div>
-      <span>Ini templates</span>
-      {JSON.stringify(templates)}
       <AddFormRevision
         onSave={(formValues) => {
           dispatch(addTask(formValues));
