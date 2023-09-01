@@ -58,6 +58,7 @@ const Table: React.FC = () => {
   const handleDeleteClick = (task) => {
     setDeletingTask(task);
     setIsDeleteModalOpen(true);
+    console.log("Tes delete");
   };
 
   const handleDeleteConfirmation = () => {
@@ -262,7 +263,7 @@ const Table: React.FC = () => {
           columns={renderDetailsListColumns()}
           layoutMode={DetailsListLayoutMode.fixedColumns}
           // borderless
-          // selectionMode={SelectionMode.multiple}
+          // selectionMode={SelectionMode.none}
         />
         <div className="button-page">
           <DefaultButton

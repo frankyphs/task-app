@@ -265,7 +265,7 @@ const CustomizeRevise: React.FC = () => {
       const newComponent: FormElement = {
         type: movedOriginComponent.type,
         id: new Date().getTime().toString(),
-        name: movedOriginComponent.id,
+        name: movedOriginComponent.type,
       };
 
       simpanArrayTujuan.splice(destination.index, 0, newComponent);
@@ -299,7 +299,7 @@ const CustomizeRevise: React.FC = () => {
 
   return (
     <>
-      {JSON.stringify(templates)}{" "}
+      {/* {JSON.stringify(templates)}{" "} */}
       <div>
         <DragDropContext onDragEnd={handleDragandDrops}>
           <Droppable

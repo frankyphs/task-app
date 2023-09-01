@@ -449,3 +449,52 @@ color: #fff;
 .ms-Label{
   font-size: 15px;
 }
+
+
+/* .ms-DetailsRow:after {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD ;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+}
+
+.ms-DetailsRow-cell:after {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  border-bottom: 1px solid #DDD;
+  border-left: 1px solid #DDD;
+}
+
+.ms-DetailsHeader:after {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD ;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+}
+
+.ms-DetailsHeader-cell:after {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD ;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+} */
